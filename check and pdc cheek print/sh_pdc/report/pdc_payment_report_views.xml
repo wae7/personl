@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_pdc_payment">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <center><h2>PDC Payment Report</h2></center>
+                    <br />
+                    <table class="table table-condensed" name="pdc_table" width="100%">
+                        <tr>
+                            <th width="15%">Name</th>
+                            <th width="15%">Customer</th>
+                            <th width="15%">Bank</th>
+                            <th width="10%">Payment Date</th>
+                            <th width="15%">Payment Amount</th>
+                            <th width="20%">Cheque Reference</th>
+
+                            <th width="10%">Status</th>
+                        </tr>
+                        <tr t-foreach="docs" t-as="doc">
+                            <td width="15%">
+                                <span t-field="doc.name" />
+                            </td>
+                            <td width="15%"><span t-field="doc.partner_id.name" /></td>
+                            <td width="15%"><span t-field="doc.bank_id.display_name" /></td>
+                            <td width="10%"><span t-field="doc.payment_date" /></td>
+                            <td width="15%"><span t-field="doc.payment_amount" /></td>
+                            <td width="20%"><span t-field="doc.reference" /></td>
+                            <td width="10%"><span t-field="doc.state" /></td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+    <template id="report_pdc_check">
+        <t t-call="web.html_container">
+            <div class="header" />
+            <div class="article">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div class="oe_structure" />
+                        <div class="row mb32 mt32" style="padding-top: 3mm;">
+                            <div class="col-8">
+                                <p style="text-align: left; margin-right: 5mm;">
+                                    <span style="visibility: hidden;">*******************</span>يصرف للمستفيد الأول
+                                </p>
+                                <br/>
+                                <br/>
+                                <div class="col-xs-4 text-middle" style="margin-right: 10px; position:relative; left:38mm; margin-top: -8mm;">
+                                    <span t-esc="o.payment_date"/>
+                                </div>
+                                <br/>
+                                <div class="col-xs-4 text-start" style="position:relative; left: 97mm; margin-top: 5mm;">
+                                    <span
+                                            t-field="o.custom_field"
+
+                                    />
+                                </div>
+                                <br/>
+                                <div style="position:absolute; left: 47mm; font-size: 13px;">
+                                    <span t-esc="o.check_amount_in_words"/>
+                                </div>
+                                <br/>
+                                <div style="text-align:right; position:absolute; left:0mm; right: 5mm; margin-top: 2mm;">
+                                    <span t-esc="'{:.0f}'.format(o.payment_amount // 1)" style="text-align: right;"/>
+                                    <span style="visibility: hidden;">{*****}</span>
+                                    <span t-esc="'{:.3f}'.format(o.payment_amount).split('.')[1]" style="text-align: right;"/>
+                                </div>
+                                <div style="text-align:right; position:absolute; left:0mm; right: 60mm; margin-top: 4mm; font-size: 13px;">
+                                    <span t-esc="o.reference"/>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                    <p style="page-break-before:always;" />
+                </t>
+            </div>
+        </t>
+    </template>
+    <record id="paperformat_pdc" model="report.paperformat">
+        <field name="name">PDC</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">50</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">45</field>
+        <field name="dpi">80</field>
+    </record>
+
+    <record id="action_report_pdc_payment" model="ir.actions.report">
+        <field name="name">PDC Payment Report</field>
+        <field name="model">pdc.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sh_pdc.report_pdc_payment</field>
+        <field name="report_file">sh_pdc.report_pdc_payment</field>
+        <field name="binding_model_id" ref="sh_pdc.model_pdc_wizard" />
+        <field name="paperformat_id" ref="sh_pdc.paperformat_pdc" />
+        <field name="binding_type">report</field>
+    </record>
+
+     <record id="paperformat1_pdc" model="report.paperformat">
+        <field name="name">PDC check</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">50</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">45</field>
+        <field name="dpi">80</field>
+    </record>
+
+    <record id="action_report_pdc_check" model="ir.actions.report">
+        <field name="name">PDC Payment check</field>
+        <field name="model">pdc.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sh_pdc.report_pdc_check</field>
+        <field name="report_file">sh_pdc.report_pdc_check</field>
+        <field name="binding_model_id" ref="sh_pdc.model_pdc_wizard" />
+        <field name="paperformat_id" ref="sh_pdc.paperformat1_pdc" />
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

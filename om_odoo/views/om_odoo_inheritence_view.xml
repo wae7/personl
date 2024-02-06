@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_stock_valuation_layer_form_inherit" model="ir.ui.view">
+            <field name="name">stock.valuation.layer.inherit</field>
+            <field name="model">stock.valuation.layer</field>
+            <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="land"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_product_template_form_inherit" model="ir.ui.view">
+            <field name="name">stock.product.template.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='list_price']" position="after">
+                    <div>
+                        <field name="attributes1"/>
+                    </div>
+                    <div>
+                        <field name="valuo1"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_product_template_tree_inherit" model="ir.ui.view">
+            <field name="name">stock.product.template.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                        <field name="attributes1"/>
+                        <field name="valuo1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_product_product_tree_inherit" model="ir.ui.view">
+            <field name="name">stock.product.product.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="stock.product_product_stock_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='display_name']" position="after">
+                    <field name="attributes2"/>
+                    <field name="valuo2"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_stock_quant_tree_inherit" model="ir.ui.view">
+            <field name="name">stock.stock.quant.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="attributes3"/>
+                    <field name="valuo3"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

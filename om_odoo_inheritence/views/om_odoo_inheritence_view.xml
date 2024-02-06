@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_mrp_bom_form_inherit" model="ir.ui.view">
+            <field name="name">mrp.bom.inherit</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//notebook" position="inside">
+                        <page string="Pricing Sheet" name="pricing_sheet">
+                            <field name="custom_ids">
+                                <tree string="Pricing Lines" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="percentage_field" widget='percentage'/>
+                                    <field name="amount_field"/>
+                                    <field name="cost_hose" invisible='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+        <record id="view_mrp_eco_form_inherited" model="ir.ui.view">
+            <field name="name">mrp.eco.form.inherited</field>
+            <field name="model">mrp.eco</field>
+            <field name="inherit_id" ref="mrp_plm.mrp_eco_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type_id']" position="attributes">
+                    <attribute name="widget">radio</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_mrp_eco_form1_inherited" model="ir.ui.view">
+            <field name="name">mrp.eco.form.inherited</field>
+            <field name="model">mrp.eco</field>
+            <field name="inherit_id" ref="mrp_plm.mrp_eco_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type_id']" position="before">
+                    <field name="sale_order_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="sale_order_view_form_inherit_plm" model="ir.ui.view">
+            <field name="name">sale.order.view.form.inherit.plm</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button groups="mrp_plm.group_plm_user" class="oe_stat_button" name="button_sale_order_eco"
+                            type="object" icon="fa-cogs" string="ECO">
+                    </button>
+                </div>
+            </field>
+        </record>
+        <record id="mrp_eco_view_form_inherit_plm" model="ir.ui.view">
+            <field name="name">mrp.eco.view.form.inherit.plm</field>
+            <field name="model">mrp.eco</field>
+            <field name="inherit_id" ref="mrp_plm.mrp_eco_view_form"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" name="button_mrp1_eco"
+                            type="object" icon="fa-cogs" string="Manufacturing Order">
+                    </button>
+                </div>
+            </field>
+        </record>
+        <record id="view_mrp_production_form1_inherited" model="ir.ui.view">
+            <field name="name">mrp.production.form.inherited</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="before">
+                    <field name="eco_id"/>
+                    <field name="roo_id" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_product_attribute_inherited" model="ir.ui.view">
+            <field name="name">product.attribute.inherited</field>
+            <field name="model">product.attribute</field>
+            <field name="inherit_id" ref="product.product_attribute_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='is_custom']" position="after">
+                    <field name="cod"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_product_product_inherited" model="ir.ui.view">
+            <field name="name">product.product.inherited</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_template_variant_value_ids']" position="after">
+                    <field name="cood"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

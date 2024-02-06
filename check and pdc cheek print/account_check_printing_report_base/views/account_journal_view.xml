@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_account_journal_form_inherited" model="ir.ui.view">
+        <field name="name">account.journal.form.inherited</field>
+        <field name="model">account.journal</field>
+        <field
+            name="inherit_id"
+            ref="account_check_printing.view_account_journal_form_inherited"
+        />
+        <field name="arch" type="xml">
+            <field name="check_next_number" position="after">
+                <field name="check_print_auto" />
+                <field name="account_check_printing_layout" />
+            </field>
+        </field>
+    </record>
+    <record id='res_partner_form' model='ir.ui.view'>
+        <field name='name'>res.partner.inherit</field>
+        <field name='model'>res.partner</field>
+        <field name='inherit_id' ref='base.view_partner_form'/>
+        <field name='arch' type='xml'>
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="custom_field"/>
+            </xpath>
+        </field>
+    </record>
+    <record id='account_payment_form' model='ir.ui.view'>
+        <field name='name'>account.payment.inherit</field>
+        <field name='model'>account.payment</field>
+        <field name='inherit_id' ref='account.view_account_payment_form'/>
+        <field name='arch' type='xml'>
+            <xpath expr="//field[@name='ref']" position="after">
+                <field name="custom_field" attrs="{'invisible': [('payment_method_code', '!=', 'check_printing')]}" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_account_payment_form_inherited" model="ir.ui.view">
+        <field name="name">account.payment.form.inherited</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='print_checks']" position="attributes">
+                <attribute name="attrs">{'invisible': [('payment_method_code', '!=', 'check_printing'), ('state', '!=',
+                    'posted'), ('is_move_sent', '=', True)]}
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
